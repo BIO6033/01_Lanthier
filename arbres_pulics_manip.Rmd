@@ -1,0 +1,24 @@
+---
+title: "arbres_montreal"
+author: "Isabel"
+date: "01/10/2019"
+output: html_document:
+    keep_md:  true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
+## Packages et importation des données
+```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(tidyverse)
+read_csv("arbres_publics.csv")
+```
+
+## Vérification du type de variables dans le tableau
+
+
