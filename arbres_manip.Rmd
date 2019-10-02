@@ -35,7 +35,7 @@ Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
 arbres_dataframe %>% 
   group_by(ARROND_NOM) %>% 
   summarize(n_observations = n()) %>% 
-  arrange(n_observations) %>% 
+  arrange(desc(n_observations))
 ```
 
 
