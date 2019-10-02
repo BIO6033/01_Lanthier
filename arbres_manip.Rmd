@@ -13,7 +13,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
+
 ## Packages et importation des données
 
 ```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -26,8 +26,16 @@ arbres_dataframe  = read_csv("arbres_publics.csv")
 ```{r}
 arbres_dataframe$EMP_NO %>%  as.character()
 arbres_dataframe$ARROND %>% as.character()
-arbres_dataframe$No_civique %>% as.character()
+arbres_dataframe$No_civique %>% as.integer()
 ```
 
+Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
 ## 
+```{r}
+arbres_dataframe %>% 
+  group_by(ARROND_NOM) %>% 
+  summarize(n_observations = n()) %>% 
+  arrange(n_observations) %>% 
+```
+
 
