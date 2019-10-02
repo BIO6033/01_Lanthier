@@ -1,0 +1,33 @@
+---
+title: "arbres_publics_manip"
+author: "Isabel"
+date: "01/10/2019"
+output:
+  html_document:
+    keep_md:  true
+  editor_options:
+    chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
+## Packages et importation des données
+
+```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(tidyverse)
+arbres_dataframe  = read_csv("arbres_publics.csv")
+```
+
+## Spécification du bon type de variable pour chaque colomne
+
+```{r}
+arbres_dataframe$EMP_NO %>%  as.character()
+arbres_dataframe$ARROND %>% as.character()
+arbres_dataframe$No_civique %>% as.character()
+```
+
+## 
+
