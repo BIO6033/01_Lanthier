@@ -112,54 +112,48 @@ arbres_dataframe %>%
   arrange(desc(n_observations))
 ```
 
-```
-## # A tibble: 14 x 2
-##    ARROND_NOM                                 n_observations
-##    <chr>                                               <int>
-##  1 Ahuntsic - Cartierville                             32677
-##  2 Rosemont - La Petite-Patrie                         31683
-##  3 Côte-des-Neiges - Notre-Dame-de-Grâce               26551
-##  4 Mercier - Hochelaga-Maisonneuve                     26368
-##  5 Villeray-Saint-Michel - Parc-Extension              23119
-##  6 Saint-Laurent                                       23094
-##  7 Rivière-des-Prairies - Pointe-aux-Trembles          22335
-##  8 LaSalle                                             21579
-##  9 Le Sud-Ouest                                        20457
-## 10 Saint-Léonard                                       18217
-## 11 Le Plateau-Mont-Royal                               16556
-## 12 Verdun                                              16106
-## 13 Pierrefonds - Roxboro                               15527
-## 14 Ville-Marie                                         14193
-```
+# Dans quels arrondissement y a-t-il la plus grande diversitée ?
 
-# Dans quels arrondissement y a-t-il le plus plus grand nombre d'espèces ?
-
+## Nombre d'espèces
 
 ```r
 arbres_dataframe %>%
   filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
   group_by(ARROND_NOM) %>%
-  summarise(n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
-  arrange(desc(n_especes))
+  summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
+  arrange(desc(n_especes)) 
 ```
 
 ```
-## # A tibble: 14 x 2
-##    ARROND_NOM                                 n_especes
-##    <chr>                                          <int>
-##  1 Rosemont - La Petite-Patrie                      353
-##  2 Ahuntsic - Cartierville                          331
-##  3 Côte-des-Neiges - Notre-Dame-de-Grâce            316
-##  4 Rivière-des-Prairies - Pointe-aux-Trembles       315
-##  5 Mercier - Hochelaga-Maisonneuve                  302
-##  6 Villeray-Saint-Michel - Parc-Extension           281
-##  7 Pierrefonds - Roxboro                            278
-##  8 Saint-Léonard                                    247
-##  9 Le Sud-Ouest                                     245
-## 10 LaSalle                                          241
-## 11 Le Plateau-Mont-Royal                            232
-## 12 Verdun                                           212
-## 13 Saint-Laurent                                    205
-## 14 Ville-Marie                                      203
+## # A tibble: 14 x 3
+##    ARROND_NOM                                 n_observations n_especes
+##    <chr>                                               <int>     <int>
+##  1 Rosemont - La Petite-Patrie                         31683       353
+##  2 Ahuntsic - Cartierville                             32677       331
+##  3 Côte-des-Neiges - Notre-Dame-de-Grâce               26551       316
+##  4 Rivière-des-Prairies - Pointe-aux-Trembles          22335       315
+##  5 Mercier - Hochelaga-Maisonneuve                     26368       302
+##  6 Villeray-Saint-Michel - Parc-Extension              23119       281
+##  7 Pierrefonds - Roxboro                               15527       278
+##  8 Saint-Léonard                                       18217       247
+##  9 Le Sud-Ouest                                        20457       245
+## 10 LaSalle                                             21579       241
+## 11 Le Plateau-Mont-Royal                               16556       232
+## 12 Verdun                                              16106       212
+## 13 Saint-Laurent                                       23094       205
+## 14 Ville-Marie                                         14193       203
 ```
+
+
+```r
+arbres_dataframe %>% 
+  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
+  group_by(ARROND_NOM) %>%
+  summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
+  ggplot(aes(x = ARROND_NOM, y = n_observations, fill = n_especes)) +
+  geom_bar(stat = "identity")
+```
+
+![](arbres_manip_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
 

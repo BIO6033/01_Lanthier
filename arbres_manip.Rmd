@@ -60,7 +60,7 @@ L'arrondissement où il y a le plus grand nombre d'abres répertoriés est Ahunt
 # Nettoyage des données
 Il y a très peu d'arbres répertoriés pour certain arrondissement (< 18 pour Anjou et Montréal-Est). J'ai choisi de les retirer de l'analyse.
 
-```{r Supression de certains arrondissements}
+```{r Supression de certains arrondissements, results="hide"}
 arbres_dataframe %>%
 # Sélection des lignes où le nom d'arrondissement n'est pas Anjou ou Montréal-Est
   filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
@@ -69,13 +69,19 @@ arbres_dataframe %>%
   arrange(desc(n_observations))
 ```
 
-# Dans quels arrondissement y a-t-il le plus plus grand nombre d'espèces ?
+# Dans quels arrondissement y a-t-il la plus grande diversitée ?
 
-```{r}
+## Nombre d'espèces
+```{r nb especes}
 arbres_dataframe %>%
   filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
   group_by(ARROND_NOM) %>%
-  summarise(n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
-  arrange(desc(n_especes))
+  summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
+  arrange(desc(n_especes)) 
 ```
+
+```{r}
+
+```
+
 
