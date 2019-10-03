@@ -144,6 +144,8 @@ arbres_dataframe %>%
 ## 14 Ville-Marie                                         14193       203
 ```
 
+## Graphique montrant la diversité d'arbres par arrondissement
+
 
 ```r
 arbres_dataframe %>% 
@@ -154,6 +156,6 @@ arbres_dataframe %>%
   geom_bar(stat = "identity")
 ```
 
-![](arbres_manip_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![](arbres_manip_files/figure-html/Plot nb arbre nb especes-1.png)<!-- -->
 
 

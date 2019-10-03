@@ -465,6 +465,9 @@ arbres_dataframe$No_civique %&gt;% as.integer()</code></pre>
 ## 12 Verdun                                              16106       212
 ## 13 Saint-Laurent                                       23094       205
 ## 14 Ville-Marie                                         14193       203</code></pre>
+</div>
+<div id="graphique-montrant-la-diversite-darbres-par-arrondissement" class="section level2">
+<h2>Graphique montrant la diversité d’arbres par arrondissement</h2>
 <pre class="r"><code>arbres_dataframe %&gt;% 
   filter(ARROND_NOM != &quot;Anjou&quot; &amp; ARROND_NOM != &quot;Montréal-Est&quot;) %&gt;% 
   group_by(ARROND_NOM) %&gt;%

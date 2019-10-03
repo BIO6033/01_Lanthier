@@ -80,8 +80,15 @@ arbres_dataframe %>%
   arrange(desc(n_especes)) 
 ```
 
-```{r}
+## Graphique montrant la diversité d'arbres par arrondissement
 
+```{r Plot nb arbre nb especes}
+arbres_dataframe %>% 
+  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
+  group_by(ARROND_NOM) %>%
+  summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
+  ggplot(aes(x = ARROND_NOM, y = n_observations, fill = n_especes)) +
+  geom_bar(stat = "identity")
 ```
 
 
