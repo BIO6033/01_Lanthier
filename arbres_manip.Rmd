@@ -25,8 +25,10 @@ arbres_dataframe  = read_csv("arbres_publics.csv")
 ## Spécification du bon type de variable pour chaque colonne
 
 ```{r type de variables, message=FALSE, warning=FALSE, results="hide"}
+# Ajout d'un 0 devant les numéros d'arrond. inférieur à 10.(convertie automatiquement en chr)
+arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)] = paste("0", arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)], sep ="")
+# Type de variable
 arbres_dataframe$EMP_NO = arbres_dataframe$EMP_NO %>%  as.character()
-arbres_dataframe$ARROND = arbres_dataframe$ARROND %>% as.character()
 arbres_dataframe$No_civique = arbres_dataframe$No_civique %>% as.integer()
 ```
 
@@ -83,15 +85,25 @@ arbres_dataframe %>%
 ## Graphique montrant la diversité d'arbres par arrondissement
 
 ```{r Plot nb arbre nb especes}
-# vecteur pour ordonner l'axe des x du graphique (pas la meilleur façcon de faire ça...)
-level_order = c('1','2','3','4','5','6','7','8','9','12','13','16','25','27')
 # J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
   group_by(ARROND) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
 # J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
   filter(n_observations > 18) %>%
-  ggplot(aes(x = factor(ARROND, level = level_order), y = n_observations, fill = n_especes)) +
+  ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
   geom_bar(stat = "identity")
 ```
+
+### Correspondance entre les numéros d'arrondissement et leur nom.
+
+```{r}
+# Il faudrait utiliser l'information ci dessou et le mettre en légende dans le graphique.
+arbres_dataframe %>%
+  group_by(ARROND, ARROND_NOM) %>%
+  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
+  summarise()
+```
+
+
 

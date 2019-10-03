@@ -160,7 +160,7 @@ arbres_dataframe %>%
   geom_bar(stat = "identity")
 ```
 
-![](arbres_manip_files/figure-html/Plot nb arbre nb especes-1.png)<!-- -->
+![](arbres_manip_files/figure-html/Plot_nb_arbre_nb_especes-1.png)<!-- -->
 
 ### Correspondance entre les numéros d'arrondissement et leur nom.
 
