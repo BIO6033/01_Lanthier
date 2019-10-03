@@ -25,9 +25,9 @@ arbres_dataframe  = read_csv("arbres_publics.csv")
 
 
 ```r
-arbres_dataframe$EMP_NO %>%  as.character()
-arbres_dataframe$ARROND %>% as.character()
-arbres_dataframe$No_civique %>% as.integer()
+arbres_dataframe$EMP_NO = arbres_dataframe$EMP_NO %>%  as.character()
+arbres_dataframe$ARROND = arbres_dataframe$ARROND %>% as.character()
+arbres_dataframe$No_civique = arbres_dataframe$No_civique %>% as.integer()
 ```
 
 # Exploration du data set
@@ -148,11 +148,13 @@ arbres_dataframe %>%
 
 
 ```r
+# J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
-  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
-  group_by(ARROND_NOM) %>%
+  group_by(ARROND) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
-  ggplot(aes(x = ARROND_NOM, y = n_observations, fill = n_especes)) +
+# J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
+  filter(n_observations > 18) %>% 
+  ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
   geom_bar(stat = "identity")
 ```
 
