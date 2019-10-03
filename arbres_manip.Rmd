@@ -83,14 +83,15 @@ arbres_dataframe %>%
 ## Graphique montrant la diversité d'arbres par arrondissement
 
 ```{r Plot nb arbre nb especes}
+# vecteur pour ordonner l'axe des x du graphique (pas la meilleur façcon de faire ça...)
+level_order = c('1','2','3','4','5','6','7','8','9','12','13','16','25','27')
 # J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
   group_by(ARROND) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
 # J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
-  filter(n_observations > 18) %>% 
-  ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
+  filter(n_observations > 18) %>%
+  ggplot(aes(x = factor(ARROND, level = level_order), y = n_observations, fill = n_especes)) +
   geom_bar(stat = "identity")
 ```
-
 

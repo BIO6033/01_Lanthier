@@ -25,8 +25,10 @@ arbres_dataframe  = read_csv("arbres_publics.csv")
 
 
 ```r
+# Ajout d'un 0 devant les numéros d'arrond. inférieur à 10.(convertie automatiquement en chr)
+arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)] = paste("0", arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)], sep ="")
+# Type de variable
 arbres_dataframe$EMP_NO = arbres_dataframe$EMP_NO %>%  as.character()
-arbres_dataframe$ARROND = arbres_dataframe$ARROND %>% as.character()
 arbres_dataframe$No_civique = arbres_dataframe$No_civique %>% as.integer()
 ```
 
@@ -153,11 +155,44 @@ arbres_dataframe %>%
   group_by(ARROND) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
 # J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
-  filter(n_observations > 18) %>% 
+  filter(n_observations > 18) %>%
   ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
   geom_bar(stat = "identity")
 ```
 
 ![](arbres_manip_files/figure-html/Plot nb arbre nb especes-1.png)<!-- -->
+
+### Correspondance entre les numéros d'arrondissement et leur nom.
+
+
+```r
+# Il faudrait utiliser l'information ci dessou et le mettre en légende dans le graphique.
+arbres_dataframe %>%
+  group_by(ARROND, ARROND_NOM) %>%
+  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
+  summarise()
+```
+
+```
+## # A tibble: 14 x 2
+## # Groups:   ARROND [14]
+##    ARROND ARROND_NOM                                
+##    <chr>  <chr>                                     
+##  1 01     Ahuntsic - Cartierville                   
+##  2 02     Villeray-Saint-Michel - Parc-Extension    
+##  3 03     Rosemont - La Petite-Patrie               
+##  4 04     Mercier - Hochelaga-Maisonneuve           
+##  5 05     Le Plateau-Mont-Royal                     
+##  6 06     Ville-Marie                               
+##  7 07     Côte-des-Neiges - Notre-Dame-de-Grâce     
+##  8 08     Le Sud-Ouest                              
+##  9 09     Rivière-des-Prairies - Pointe-aux-Trembles
+## 10 12     Saint-Léonard                             
+## 11 13     LaSalle                                   
+## 12 16     Verdun                                    
+## 13 25     Pierrefonds - Roxboro                     
+## 14 27     Saint-Laurent
+```
+
 
 
