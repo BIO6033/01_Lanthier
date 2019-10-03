@@ -16,21 +16,41 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Packages et importation des données
 
-```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE, results="hide"}
+#Loading packages
 library(tidyverse)
+# Import data set
 arbres_dataframe  = read_csv("arbres_publics.csv")
 ```
 
-## Spécification du bon type de variable pour chaque colomne
+## Spécification du bon type de variable pour chaque colonne
 
-```{r}
+```{r type de variables, message=FALSE, warning=FALSE, results="hide"}
 arbres_dataframe$EMP_NO %>%  as.character()
 arbres_dataframe$ARROND %>% as.character()
 arbres_dataframe$No_civique %>% as.integer()
 ```
 
-Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
-## 
+# Dans quel arrondissment de montréal y a-t-il le plus d'arbes répertoriés ?
+
+```{r Liste des arrondissements}
+arbres_dataframe %>%
+  group_by(ARROND_NOM) %>%
+  summarise(n_observations = n()) %>%
+  arrange(desc(n_observations)) 
+```
+Il s'agit d'Ahuntsic - Cartierville.
+# Nettoyage des données
+Il y a très peu d'arbres répertoriés pour certain arrondissement ( Anjou, Montréal-Est). J'ai choisi de les retirer de l'analyse.
+
+```{r Supression de certains arrondissements}
+arbres_dataframe %>%
+  filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
+  group_by(ARROND_NOM) %>%
+  summarise(n_observations = n()) %>% 
+  arrange(desc(n_observations))
+```
+
 ```{r}
 arbres_dataframe %>%
   group_by(ARROND_NOM) %>%
@@ -39,5 +59,4 @@ arbres_dataframe %>%
   ggplot(aes(x = ARROND_NOM, y = n_observations)) + 
     geom_bar(stat="identity")
 ```
-
 
