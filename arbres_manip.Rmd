@@ -15,11 +15,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Packages et importation des données
 
-```{r loading_packages_and_data, message=FALSE, warning=FALSE, paged.print=FALSE, results="hide"}
+```{r loading_packages_and_data, message=FALSE, warning=FALSE, paged.print=TRUE, results="hide"}
 #Loading packages
 library(tidyverse)
 # Import data set
 arbres_dataframe  = read_csv("arbres_publics.csv")
+arbres_dataframe
 ```
 
 ## Spécification du bon type de variable pour chaque colonne
@@ -87,12 +88,15 @@ arbres_dataframe %>%
 ```{r Plot_nb_arbre_nb_especes}
 # J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
-  group_by(ARROND) %>%
+  group_by(ARROND_NOM) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
-# J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
+# J'ai ainsiangle = 90 mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
   filter(n_observations > 18) %>%
-  ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
-  geom_bar(stat = "identity")
+  ggplot(aes(x = ARROND_NOM, y = n_observations, fill = n_especes)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Nom de l'arrondissement", y = "Nombre d'espèces", fill = "Nombre d'espèces")
+  theme(axis.text.x=element_text())
 ```
 
 ### Correspondance entre les numéros d'arrondissement et leur nom.
