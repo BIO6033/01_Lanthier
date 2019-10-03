@@ -32,10 +32,12 @@ arbres_dataframe$No_civique %>% as.integer()
 Dans quel arrondissment de montréal y a-t-il le plus d'arbes ?
 ## 
 ```{r}
-arbres_dataframe %>% 
-  group_by(ARROND_NOM) %>% 
-  summarize(n_observations = n()) %>% 
-  arrange(desc(n_observations))
+arbres_dataframe %>%
+  group_by(ARROND_NOM) %>%
+  summarise(n_observations = n()) %>%
+  arrange(desc(n_observations)) %>%
+  ggplot(aes(x = ARROND_NOM, y = n_observations)) + 
+    geom_bar(stat="identity")
 ```
 
 
