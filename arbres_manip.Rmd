@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Packages et importation des données
 
-```{r loading packages and data, message=FALSE, warning=FALSE, paged.print=FALSE, results="hide"}
+```{r loading_packages_and_data, message=FALSE, warning=FALSE, paged.print=FALSE, results="hide"}
 #Loading packages
 library(tidyverse)
 # Import data set
@@ -24,7 +24,7 @@ arbres_dataframe  = read_csv("arbres_publics.csv")
 
 ## Spécification du bon type de variable pour chaque colonne
 
-```{r type de variables, message=FALSE, warning=FALSE, results="hide"}
+```{r type_de_variables, message=FALSE, warning=FALSE, results="hide"}
 # Ajout d'un 0 devant les numéros d'arrond. inférieur à 10.(convertie automatiquement en chr)
 arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)] = paste("0", arbres_dataframe$ARROND[which(arbres_dataframe$ARROND<10)], sep ="")
 # Type de variable
@@ -36,7 +36,7 @@ arbres_dataframe$No_civique = arbres_dataframe$No_civique %>% as.integer()
 
 ## Combien d'espèces différentes d'arbres sont répertoriés ?
 
-```{r Nombre especes}
+```{r Nombre_especes}
 # Nombre d'espèces répertoriées avec le nom latin
   n_distinct(arbres_dataframe$Essence_latin, na.rm = TRUE)
 # Nombre d'espèces répertoriées avec le nom Français
@@ -48,7 +48,7 @@ Le nombre d'espèces changent avec la langue utilisée pour les identifier... No
 
 # Nombre d'arbes répertoriés pour chaque arrondissement.
 
-```{r Liste des arrondissements}
+```{r Liste_des_arrondissements}
 arbres_dataframe %>%
 # Regroupement par arrondissement
   group_by(ARROND_NOM) %>%
@@ -62,7 +62,7 @@ L'arrondissement où il y a le plus grand nombre d'abres répertoriés est Ahunt
 # Nettoyage des données
 Il y a très peu d'arbres répertoriés pour certain arrondissement (< 18 pour Anjou et Montréal-Est). J'ai choisi de les retirer de l'analyse.
 
-```{r Supression de certains arrondissements, results="hide"}
+```{r Supression_de_certains_arrondissements, results="hide"}
 arbres_dataframe %>%
 # Sélection des lignes où le nom d'arrondissement n'est pas Anjou ou Montréal-Est
   filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
@@ -74,7 +74,7 @@ arbres_dataframe %>%
 # Dans quels arrondissement y a-t-il la plus grande diversitée ?
 
 ## Nombre d'espèces
-```{r nb especes}
+```{r nb_especes}
 arbres_dataframe %>%
   filter(ARROND_NOM != "Anjou" & ARROND_NOM != "Montréal-Est") %>% 
   group_by(ARROND_NOM) %>%
@@ -84,7 +84,7 @@ arbres_dataframe %>%
 
 ## Graphique montrant la diversité d'arbres par arrondissement
 
-```{r Plot nb arbre nb especes}
+```{r Plot_nb_arbre_nb_especes}
 # J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
   group_by(ARROND) %>%
@@ -97,7 +97,7 @@ arbres_dataframe %>%
 
 ### Correspondance entre les numéros d'arrondissement et leur nom.
 
-```{r}
+```{r num_arrond}
 # Il faudrait utiliser l'information ci dessou et le mettre en légende dans le graphique.
 arbres_dataframe %>%
   group_by(ARROND, ARROND_NOM) %>%
