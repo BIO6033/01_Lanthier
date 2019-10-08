@@ -19,6 +19,7 @@ output:
 library(tidyverse)
 # Import data set
 arbres_dataframe  = read_csv("arbres_publics.csv")
+arbres_dataframe
 ```
 
 ## Spécification du bon type de variable pour chaque colonne
@@ -152,15 +153,41 @@ arbres_dataframe %>%
 ```r
 # J'ai décidé d'utiliser le numéro d'arrondissement ici pour alléger le graphique (la variable ARROND au lieu de ARROND_NOM)
 arbres_dataframe %>% 
-  group_by(ARROND) %>%
+  group_by(ARROND_NOM) %>%
   summarise(n_observations = n(), n_especes = n_distinct(Essence_latin, na.rm = TRUE)) %>%
-# J'ai ainsi mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
+# J'ai ainsiangle = 90 mis le filtre sur le nombre d'observations pour exclures les deux même arrondissements, ça allège le code en même temps.
   filter(n_observations > 18) %>%
-  ggplot(aes(x = ARROND, y = n_observations, fill = n_especes)) +
-  geom_bar(stat = "identity")
+  ggplot(aes(x = ARROND_NOM, y = n_observations, fill = n_especes)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Nom de l'arrondissement", y = "Nombre d'espèces", fill = "Nombre d'espèces")
 ```
 
 ![](arbres_manip_files/figure-html/Plot_nb_arbre_nb_especes-1.png)<!-- -->
+
+```r
+  theme(axis.text.x=element_text())
+```
+
+```
+## List of 1
+##  $ axis.text.x:List of 11
+##   ..$ family       : NULL
+##   ..$ face         : NULL
+##   ..$ colour       : NULL
+##   ..$ size         : NULL
+##   ..$ hjust        : NULL
+##   ..$ vjust        : NULL
+##   ..$ angle        : NULL
+##   ..$ lineheight   : NULL
+##   ..$ margin       : NULL
+##   ..$ debug        : NULL
+##   ..$ inherit.blank: logi FALSE
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  - attr(*, "class")= chr [1:2] "theme" "gg"
+##  - attr(*, "complete")= logi FALSE
+##  - attr(*, "validate")= logi TRUE
+```
 
 ### Correspondance entre les numéros d'arrondissement et leur nom.
 
